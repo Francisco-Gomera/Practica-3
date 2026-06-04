@@ -19,7 +19,8 @@ Una API REST construida con Django para gestionar usuarios y sus preferencias mu
 
 Antes de comenzar, asegúrate de tener instalado:
 
-- **Python 3.9+** ([Descargar](https://www.python.org/downloads/))
+- **Python 3.12+**
+- **Docker Desktop** (opcional, método recomendado)
 - **pip** (incluido con Python)
 - **Git** (opcional, para control de versiones)
 - Credenciales de Spotify (ver [Configuración](#configuración))
@@ -77,6 +78,7 @@ Esto instalará:
 
 ```bash
 python manage.py migrate
+> **Nota:** Si utilizas Docker, este paso no es necesario. Las migraciones se ejecutan automáticamente al iniciar el contenedor.
 ```
 
 Este comando crea la base de datos SQLite y todas las tablas necesarias.
@@ -153,21 +155,81 @@ Practica 3/
 ├── .env                     # Variables de entorno (no compartir)
 ├── .gitignore               # Archivos ignorados por Git
 └── db.sqlite3               # Base de datos SQLite
+├── Dockerfile               # Imagen Docker de la aplicación
+├── .dockerignore            # Archivos excluidos del contexto Docker
 ```
 
----
+## 🐳 Ejecución con Docker
 
-## 🚀 Uso de la API
+La aplicación puede ejecutarse sin necesidad de instalar Python, crear entornos virtuales o instalar dependencias manualmente.
 
-### Iniciar el Servidor
+### Requisitos
+
+* Docker Desktop instalado y en ejecución.
+
+Verificar instalación:
 
 ```bash
-python manage.py runserver
+docker --version
 ```
 
-El servidor estará disponible en: **http://127.0.0.1:8000/**
+### Construir la imagen
 
-Para detener el servidor: **Ctrl+C**
+Desde la raíz del proyecto:
+
+```bash
+docker build -t practica_3 .
+```
+
+### Ejecutar el contenedor
+
+```bash
+docker run -p 8000:8000 practica_3
+```
+
+### Acceder a la API
+
+Una vez iniciado el contenedor, la API estará disponible en:
+
+```text
+http://localhost:8000/
+```
+
+### Migraciones automáticas
+
+El contenedor ejecuta automáticamente:
+
+```bash
+python manage.py migrate
+```
+
+antes de iniciar el servidor ASGI con Uvicorn.
+
+Por ello, no es necesario crear manualmente la base de datos SQLite al ejecutar el proyecto mediante Docker.
+
+### Reconstrucción de la imagen
+
+Si se realizan cambios en el código o en las dependencias:
+
+```bash
+docker build --no-cache -t practica_3 .
+```
+
+### Detener el contenedor
+
+Presiona:
+
+```text
+Ctrl + C
+```
+
+o, desde otra terminal:
+
+```bash
+docker ps
+docker stop <container_id>
+```
+
 
 ### Usar la API
 
@@ -405,12 +467,32 @@ source venv/bin/activate
 python manage.py runserver
 ```
 
-### Error: "No such table: users_view_user"
+### Error: "no such table"
 
-**Solución:** Las migraciones no se han aplicado:
+**Causa:** Las migraciones no se han aplicado correctamente.
+
+**Solución (ejecución local):**
+
 ```bash
 python manage.py migrate
 ```
+
+**Solución (Docker):**
+
+Reconstruir la imagen y volver a ejecutar el contenedor:
+
+```bash
+docker build --no-cache -t practica_3 .
+docker run -p 8000:8000 practica_3
+```
+
+Verificar que los archivos de migración existan dentro de cada aplicación:
+
+```text
+users_view/migrations/0001_initial.py
+preferences_view/migrations/0001_initial.py
+```
+
 
 ### Error: "CSRF token missing"
 
@@ -458,4 +540,4 @@ Las contribuciones son bienvenidas. Para cambios mayores:
 
 ---
 
-**Última actualización:** 30 de Diciembre, 2025
+**Última actualización:** 04 de Junio, 2026
