@@ -129,35 +129,34 @@ Las configuraciones principales ya están lisas:
 
 ## 📁 Estructura del Proyecto
 
-```
+```text
 Practica 3/
 ├── api_server/              # Configuración principal de Django
 │   ├── settings.py          # Configuración global
 │   ├── urls.py              # Rutas principales
-│   ├── wsgi.py              # WSGI para producción
-│   └── asgi.py              # ASGI para desarrollo
+│   ├── wsgi.py              # Configuración WSGI
+│   └── asgi.py              # Configuración ASGI utilizada por Uvicorn
 ├── users_view/              # App para gestión de usuarios
 │   ├── models.py            # Modelo User
 │   ├── views.py             # Vistas CRUD de usuarios
 │   ├── urls.py              # Rutas de usuarios
 │   ├── migrations/          # Migraciones de base de datos
-│   └── admin.py             # Admin de Django
+│   └── admin.py             # Administración de Django
 ├── preferences_view/        # App para preferencias musicales
-│   ├── models.py            # Modelo Preference (FK a User)
+│   ├── models.py            # Modelo Preference
 │   ├── views.py             # Vistas CRUD de preferencias
 │   ├── urls.py              # Rutas de preferencias
 │   ├── migrations/          # Migraciones de base de datos
-│   └── admin.py             # Admin de Django
+│   └── admin.py             # Administración de Django
 ├── services/                # Servicios externos
 │   └── spotifyservices.py   # Integración con Spotify API
-├── manage.py                # Utilidad de administración de Django
+├── Dockerfile               # Configuración de la imagen Docker
+├── .dockerignore            # Archivos excluidos del contexto Docker
 ├── requirements.txt         # Dependencias del proyecto
+├── manage.py                # Utilidad de administración de Django
 ├── .env                     # Variables de entorno (no compartir)
 ├── .gitignore               # Archivos ignorados por Git
-└── db.sqlite3               # Base de datos SQLite
-├── Dockerfile               # Imagen Docker de la aplicación
-├── .dockerignore            # Archivos excluidos del contexto Docker
-```
+└── README.md                # Documentación del proyecto
 
 ## 🐳 Ejecución con Docker
 
