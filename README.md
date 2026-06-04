@@ -7,6 +7,7 @@ Una API REST construida con Django para gestionar usuarios y sus preferencias mu
 - [Requisitos Previos](#requisitos-previos)
 - [Instalación](#instalación)
 - [Configuración](#configuración)
+- [Ejecución con Docker](#ejecución-con-docker)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 - [Uso de la API](#uso-de-la-api)
 - [Endpoints](#endpoints)
@@ -39,8 +40,8 @@ pip --version
 
 ```bash
 # Si usas Git
-git clone <tu-repositorio-url>
-cd Practica\ 3
+git clone https://github.com/Francisco-Gomera/Practica-3.git
+cd Practica-3
 
 # O descargar el ZIP y extraer
 ```
@@ -78,8 +79,9 @@ Esto instalará:
 
 ```bash
 python manage.py migrate
-> **Nota:** Si utilizas Docker, este paso no es necesario. Las migraciones se ejecutan automáticamente al iniciar el contenedor.
 ```
+
+> **Nota:** Si utilizas Docker, este paso no es necesario. Las migraciones se ejecutan automáticamente al iniciar el contenedor.
 
 Este comando crea la base de datos SQLite y todas las tablas necesarias.
 
@@ -102,10 +104,10 @@ http://127.0.0.1:8000/admin/
 
 Crea un archivo `.env` en la raíz del proyecto:
 
-```bash
-# .env
+```env
 SPOTIFY_CLIENT_ID=tu_client_id_aqui
 SPOTIFY_CLIENT_SECRET=tu_client_secret_aqui
+```
 
 **Obtener credenciales de Spotify:**
 
@@ -118,7 +120,7 @@ SPOTIFY_CLIENT_SECRET=tu_client_secret_aqui
 
 ### Configuración de Django (api_server/settings.py)
 
-Las configuraciones principales ya están lisas:
+Las configuraciones principales ya están listas:
 
 - `DEBUG = True` (cambiar a `False` en producción)
 - `INSTALLED_APPS` incluye `users_view` y `preferences_view`
@@ -126,37 +128,6 @@ Las configuraciones principales ya están lisas:
 - CORS habilitado para desarrollo
 
 ---
-
-## 📁 Estructura del Proyecto
-
-```text
-Practica 3/
-├── api_server/              # Configuración principal de Django
-│   ├── settings.py          # Configuración global
-│   ├── urls.py              # Rutas principales
-│   ├── wsgi.py              # Configuración WSGI
-│   └── asgi.py              # Configuración ASGI utilizada por Uvicorn
-├── users_view/              # App para gestión de usuarios
-│   ├── models.py            # Modelo User
-│   ├── views.py             # Vistas CRUD de usuarios
-│   ├── urls.py              # Rutas de usuarios
-│   ├── migrations/          # Migraciones de base de datos
-│   └── admin.py             # Administración de Django
-├── preferences_view/        # App para preferencias musicales
-│   ├── models.py            # Modelo Preference
-│   ├── views.py             # Vistas CRUD de preferencias
-│   ├── urls.py              # Rutas de preferencias
-│   ├── migrations/          # Migraciones de base de datos
-│   └── admin.py             # Administración de Django
-├── services/                # Servicios externos
-│   └── spotifyservices.py   # Integración con Spotify API
-├── Dockerfile               # Configuración de la imagen Docker
-├── .dockerignore            # Archivos excluidos del contexto Docker
-├── requirements.txt         # Dependencias del proyecto
-├── manage.py                # Utilidad de administración de Django
-├── .env                     # Variables de entorno (no compartir)
-├── .gitignore               # Archivos ignorados por Git
-└── README.md                # Documentación del proyecto
 
 ## 🐳 Ejecución con Docker
 
@@ -229,6 +200,43 @@ docker ps
 docker stop <container_id>
 ```
 
+---
+
+## 📁 Estructura del Proyecto
+
+```
+Practica 3/
+├── api_server/              # Configuración principal de Django
+│   ├── settings.py          # Configuración global
+│   ├── urls.py              # Rutas principales
+│   ├── wsgi.py              # Configuración WSGI
+│   └── asgi.py              # Configuración ASGI utilizada por Uvicorn
+├── users_view/              # App para gestión de usuarios
+│   ├── models.py            # Modelo User
+│   ├── views.py             # Vistas CRUD de usuarios
+│   ├── urls.py              # Rutas de usuarios
+│   ├── migrations/          # Migraciones de base de datos
+│   └── admin.py             # Administración de Django
+├── preferences_view/        # App para preferencias musicales
+│   ├── models.py            # Modelo Preference
+│   ├── views.py             # Vistas CRUD de preferencias
+│   ├── urls.py              # Rutas de preferencias
+│   ├── migrations/          # Migraciones de base de datos
+│   └── admin.py             # Administración de Django
+├── services/                # Servicios externos
+│   └── spotifyservices.py   # Integración con Spotify API
+├── Dockerfile               # Configuración de la imagen Docker
+├── .dockerignore            # Archivos excluidos del contexto Docker
+├── requirements.txt         # Dependencias del proyecto
+├── manage.py                # Utilidad de administración de Django
+├── .env                     # Variables de entorno (no compartir)
+├── .gitignore               # Archivos ignorados por Git
+└── README.md                # Documentación del proyecto
+```
+
+---
+
+## 🚀 Uso de la API
 
 ### Usar la API
 
